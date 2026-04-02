@@ -27,4 +27,23 @@ postRouter.get("/get", postController.getallPost);
 
 postRouter.get('/get/:id' , postController.getPostbyid)
 
+
+/**
+ * @route put /api/post/get/:id
+ * @access private
+ * @description Update post by id
+ */
+
+
+postRouter.put('/get/:id',userIdentifire , postController.updatePostbyid)
+
+
+/**
+ * @router delete /api/post/:id
+ * @access private
+ * @description Delete a post by id
+ */
+
+postRouter.delete('/:id' , userIdentifire , postController.deletePostbyid)
+
 module.exports = postRouter;

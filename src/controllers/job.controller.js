@@ -1,6 +1,5 @@
 const jobModel = require("../models/job.model");
 
-
 async function createPosts(req, res) {
   const { title, company, salary, location } = req.body;
   const userId = req.user._id;
@@ -18,20 +17,37 @@ async function createPosts(req, res) {
   });
 }
 
+async function getallPost(req, res) {
+  const posts = await jobModel.find();
 
-async function getallPost(req , res) {
-    
-    const posts = await jobModel.find();
-
-    res.status(200).json({
-        message:"post fetch successfully" , 
-        posts
-    })
+  res.status(200).json({
+    message: "post fetch successfully",
+    posts,
+  });
 }
 
+async function getPostbyid(req, res) {
+  const postid = req.params.id;
 
-async function getPostbyid(req , res) {
-    const postid = req.params.id;  
+  const posts = await jobModel.findById(postid);
+
+  if (!posts) {
+    return res.status(404).json({
+      message: "Post not found",
+    });
+  }
+
+  res.status(200).json({
+    message: "post fetch successfully",
+    posts,
+  });
+}
+
+async function updatePostbyid(req, res) {
+  try {
+    const postid = req.params.id;
+
+    const { title, company, salary, location } = req.body;
 
     const posts = await jobModel.findById(postid);
 
@@ -41,17 +57,34 @@ async function getPostbyid(req , res) {
       });
     }
 
+    if (posts.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "Forbidden",
+      });
+    }
+
+    posts.title = title || posts.title;
+    posts.company = company || posts.company;
+    posts.salary = salary || posts.salary;
+    posts.location = location || posts.location;
+
+    await posts.save();
+
     res.status(200).json({
-        message:"post fetch successfully" , 
-        posts
-    })
+      message: "Post updated successfully",
+      posts,
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
 }
 
 
-async function updatePostbyid(req , res) {
-    const postid = req.params.id;  
-
-    const {}
+async function deletePostbyid(req,res) {
+    const postid = req.params.id;
 
     const posts = await jobModel.findById(postid);
 
@@ -61,18 +94,16 @@ async function updatePostbyid(req , res) {
       });
     }
 
+    if (posts.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "Forbidden",
+      });
+    }
 
-
+ await jobModel.findByIdAndDelete(postid);
     res.status(200).json({
-        message:"post fetch successfully" , 
-        posts
+        message:"post delete successfully"
     })
 }
 
-
-
-
-
-module.exports = {createPosts , getallPost , getPostbyid}
-
-
+module.exports = { createPosts, getallPost, getPostbyid , updatePostbyid , deletePostbyid};
