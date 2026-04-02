@@ -20,9 +20,21 @@ async function userIdentifire(req, res, next) {
     });
   }
 
-  const user = await userModel.findById(decoded.userId);
+  const user = await userModel.findById(decoded.userID);
+
+  if (!user) {
+  return res.status(401).json({
+    message: "Unauthorized"
+  });
+}
 
   req.user = user;
+
+
+
+
+
+
 
   next();
 }
