@@ -1,4 +1,5 @@
 const express = require('express')
+const userIdentifire = require('../middleware/auth.middleware')
 
 const postRouter = express.Router();
 
@@ -10,5 +11,7 @@ const postRouter = express.Router();
  * @description only loging user can create jobs.
  */
 
+postRouter.post('/jobs' ,userIdentifire ,  )
 
-postRouter.post('/post')
+
+module.exports = postRouter
