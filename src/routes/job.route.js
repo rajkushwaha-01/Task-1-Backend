@@ -1,10 +1,8 @@
-const express = require('express')
-const userIdentifire = require('../middleware/auth.middleware')
-const postController = require('../controllers/job.controller')
+const express = require("express");
+const userIdentifire = require("../middleware/auth.middleware");
+const postController = require("../controllers/job.controller");
 
 const postRouter = express.Router();
-
-
 
 /**
  * @route post /api/post/jobs
@@ -12,7 +10,19 @@ const postRouter = express.Router();
  * @description only loging user can create jobs.
  */
 
-postRouter.post('/jobs' ,userIdentifire , postController.createPosts  )
+postRouter.post("/jobs", userIdentifire, postController.createPosts);
+/**
+ * @route get /api/post/get
+ * @access public
+ * @description Get all jobs on Desbord
+ */
 
+postRouter.get("/get", postController.getallPost);
 
-module.exports = postRouter
+/**
+ * @route get /api/post/:id
+ * @access public
+ * @description Get a post by id 
+ */
+
+module.exports = postRouter;
