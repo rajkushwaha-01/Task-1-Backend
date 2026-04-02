@@ -20,9 +20,11 @@ postRouter.post("/jobs", userIdentifire, postController.createPosts);
 postRouter.get("/get", postController.getallPost);
 
 /**
- * @route get /api/post/:id
+ * @route get /api/post/get/:id
  * @access public
  * @description Get a post by id 
  */
+
+postRouter.get('/get/:id' , postController.getPostbyid)
 
 module.exports = postRouter;

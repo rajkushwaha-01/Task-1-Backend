@@ -35,11 +35,33 @@ async function getPostbyid(req , res) {
 
     const posts = await jobModel.findById(postid);
 
-    if (!post) {
+    if (!posts) {
       return res.status(404).json({
         message: "Post not found",
       });
     }
+
+    res.status(200).json({
+        message:"post fetch successfully" , 
+        posts
+    })
+}
+
+
+async function updatePostbyid(req , res) {
+    const postid = req.params.id;  
+
+    const {}
+
+    const posts = await jobModel.findById(postid);
+
+    if (!posts) {
+      return res.status(404).json({
+        message: "Post not found",
+      });
+    }
+
+
 
     res.status(200).json({
         message:"post fetch successfully" , 
