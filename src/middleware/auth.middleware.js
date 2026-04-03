@@ -20,7 +20,8 @@ async function userIdentifire(req, res, next) {
     });
   }
 
-  const user = await userModel.findById(decoded.userID);
+  const user = await userModel.findById(decoded.userId);
+  console.log(user)
 
   if (!user) {
   return res.status(401).json({
